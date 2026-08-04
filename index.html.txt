@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Somni — Архив снов</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Звёздное небо -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Луна -->
+    <div class="moon-container">
+        <div class="moon" id="moon"></div>
+        <div class="moon-glow"></div>
+    </div>
+    
+    <!-- Облака -->
+    <div class="clouds">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1>🌙 Somni</h1>
+            <p class="subtitle">Твоя душа говорит ночью. Мы переводим.</p>
+        </header>
+
+        <!-- Навигация -->
+        <nav class="nav-tabs">
+            <button class="tab active" onclick="showTab('dream')">✨ Сон</button>
+            <button class="tab" onclick="showTab('archive')">📚 Архив</button>
+            <button class="tab" onclick="showTab('events')">🌿 События</button>
+            <button class="tab" onclick="showTab('flow')">🔮 Поток</button>
+        </nav>
+
+        <!-- Экран: Запись сна -->
+        <div class="tab-content active" id="dream-tab">
+            <div class="glass-card">
+                <h2>Запиши свой сон</h2>
+                <div class="date-display" id="current-date"></div>
+                
+                <textarea 
+                    id="dream-text" 
+                    placeholder="Я летал над городом, но город был под водой..."
+                    rows="6"
+                ></textarea>
+                
+                <div class="emotions">
+                    <p>Какие эмоции во сне?</p>
+                    <div class="emotion-tags">
+                        <span class="emotion" onclick="toggleEmotion(this)">😰 Страх</span>
+                        <span class="emotion" onclick="toggleEmotion(this)">😡 Гнев</span>
+                        <span class="emotion" onclick="toggleEmotion(this)">😢 Печаль</span>
+                        <span class="emotion" onclick="toggleEmotion(this)">😍 Любовь</span>
+                        <span class="emotion" onclick="toggleEmotion(this)">🤔 Замешательство</span>
+                        <span class="emotion" onclick="toggleEmotion(this)">😌 Покой</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="interpretDream()">
+                    ✨ Расшифровать сон
+                </button>
+            </div>
+
+            <!-- Результат расшифровки -->
+            <div class="glass-card result-card hidden" id="result-card">
+                <h3>🔮 Что говорит душа</h3>
+                <div class="interpretation" id="interpretation-text"></div>
+                
+                <div class="archetypes" id="archetypes"></div>
+                
+                <div class="symbols" id="symbols"></div>
+                
+                <button class="btn-secondary" onclick="saveDream()">
+                    💾 Сохранить в архив
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран: Архив -->
+        <div class="tab-content" id="archive-tab">
+            <div class="glass-card">
+                <h2>📚 Архив снов</h2>
+                <div class="stats" id="dream-stats"></div>
+                <div class="dream-list" id="dream-list"></div>
+            </div>
+        </div>
+
+        <!-- Экран: События -->
+        <div class="tab-content" id="events-tab">
+            <div class="glass-card">
+                <h2>🌿 Жизненные события</h2>
+                <div class="event-form">
+                    <input type="date" id="event-date">
+                    <input type="text" id="event-title" placeholder="Что произошло?">
+                    <select id="event-type">
+                        <option value="work">Работа</option>
+                        <option value="relations">Отношения</option>
+                        <option value="health">Здоровье</option>
+                        <option value="finance">Финансы</option>
+                        <option value="other">Другое</option>
+                    </select>
+                    <input type="range" id="event-intensity" min="1" max="10" value="5">
+                    <label>Интенсивность: <span id="intensity-value">5</span>/10</label>
+                    <button class="btn-primary" onclick="addEvent()">Добавить</button>
+                </div>
+                <div class="event-list" id="event-list"></div>
+            </div>
+        </div>
+
+        <!-- Экран: Поток вывода -->
+        <div class="tab-content" id="flow-tab">
+            <div class="glass-card">
+                <h2>🔮 Поток вывода</h2>
+                <div class="timeline" id="timeline"></div>
+                <div class="insight-card hidden" id="insight-card">
+                    <h3>💡 Главная тема периода</h3>
+                    <p id="insight-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Загрузка -->
+    <div class="loading hidden" id="loading">
+        <div class="moon-loader"></div>
+        <p>Душа анализирует...</p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
